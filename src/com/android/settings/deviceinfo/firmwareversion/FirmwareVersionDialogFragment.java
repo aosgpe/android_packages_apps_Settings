@@ -18,12 +18,21 @@ package com.android.settings.deviceinfo.firmwareversion;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
+import android.text.TextUtils;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.util.Log;
+import android.widget.Toast;
 import android.widget.TextView;
+import android.os.SystemClock;
+import android.os.SystemProperties;
+
 
 import com.android.internal.logging.nano.MetricsProto;
 import com.android.settings.R;
@@ -32,6 +41,7 @@ import com.android.settings.core.instrumentation.InstrumentedDialogFragment;
 public class FirmwareVersionDialogFragment extends InstrumentedDialogFragment {
 
     private static final String TAG = "firmwareVersionDialog";
+    private long[] mHits = new long[3];
 
     private View mRootView;
 
@@ -56,6 +66,30 @@ public class FirmwareVersionDialogFragment extends InstrumentedDialogFragment {
 
         mRootView = LayoutInflater.from(getActivity()).inflate(
                 R.layout.dialog_firmware_version, null /* parent */);
+
+	TextView aosgp_version = mRootView.findViewById(R.id.info_aosgp_version);
+        aosgp_version.setText(SystemProperties.get("ro.aosgp.version"));
+        aosgp_version.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            System.arraycopy(mHits, 1, mHits, 0, mHits.length - 1);
+            mHits[mHits.length - 1] = SystemClock.uptimeMillis();
+            if (mHits[0] >= (SystemClock.uptimeMillis() - 500)) {
+            /*final Intent intent = new Intent(Intent.ACTION_MAIN)
+                    .setClassName(
+                            "android", com.android.internal.app.PlatLogoActivity.class.getName());
+			*/
+                try {
+                    //getContext().startActivity(intent);
+		    Toast.makeText(getActivity(), "Congratulations! You find AOSGP E secret message, don't share with anyone 			    please", Toast.LENGTH_LONG).show();
+                } catch (Exception e) {
+                    //Log.e(TAG, "Unable to start activity " + intent.toString());
+		    Log.e(TAG, "Unable to start activity ");
+                }
+            }
+            }
+        });
+
 
         initializeControllers();
 
