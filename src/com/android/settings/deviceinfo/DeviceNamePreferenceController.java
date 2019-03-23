@@ -26,6 +26,7 @@ import android.provider.Settings;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceScreen;
 import android.text.SpannedString;
+import android.os.SystemProperties;
 
 import com.android.internal.annotations.VisibleForTesting;
 
@@ -80,9 +81,13 @@ public class DeviceNamePreferenceController extends BasePreferenceController
     private void initializeDeviceName() {
         mDeviceName = Settings.Global.getString(mContext.getContentResolver(),
                 Settings.Global.DEVICE_NAME);
-        if (mDeviceName == null) {
+	if (SystemProperties.get("ro.vendor.product.device") != null){
+	  mDeviceName = SystemProperties.get("ro.vendor.product.brand") + " " + SystemProperties.get("ro.vendor.product.device");
+	} else {
+          if (mDeviceName == null) {
             mDeviceName = Build.MODEL;
-        }
+          }
+	}
     }
 
     @Override

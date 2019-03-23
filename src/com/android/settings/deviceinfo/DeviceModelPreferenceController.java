@@ -21,6 +21,10 @@ import android.os.Build;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceScreen;
 import android.text.TextUtils;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
+
 
 import com.android.settings.R;
 import com.android.settings.core.PreferenceControllerMixin;
@@ -69,7 +73,28 @@ public class DeviceModelPreferenceController extends AbstractPreferenceControlle
         return true;
     }
 
+	public static String getProp(String propName) {
+		Process p = null;
+		String result = "";
+		try {
+			p = new ProcessBuilder("/system/bin/getprop", propName).redirectErrorStream(true).start();
+			BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+			String line = "";
+			while ((line=br.readLine()) != null) {
+				result = line;
+			}
+			br.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
     public static String getDeviceModel() {
-        return Build.MODEL + DeviceInfoUtils.getMsvSuffix();
+	if (getProp("ro.vendor.product.device") != null){
+	  return getProp("ro.vendor.product.device");
+	} else {
+          return Build.MODEL + DeviceInfoUtils.getMsvSuffix();
+	}
     }
 }
