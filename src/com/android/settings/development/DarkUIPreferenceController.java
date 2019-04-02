@@ -47,7 +47,7 @@ public class DarkUIPreferenceController extends DeveloperOptionsPreferenceContro
         return DARK_UI_KEY;
     }
 
-    @Override
+	@Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         mUiModeManager.setNightMode(modeToInt((String) newValue));
         updateSummary(preference);
@@ -70,11 +70,11 @@ public class DarkUIPreferenceController extends DeveloperOptionsPreferenceContro
         switch (mode) {
             case UiModeManager.MODE_NIGHT_AUTO:
                 return values[0];
-            case UiModeManager.MODE_NIGHT_YES:
-                return values[1];
-            case UiModeManager.MODE_NIGHT_NO:
-            default:
+			case UiModeManager.MODE_NIGHT_NO:
                 return values[2];
+            case UiModeManager.MODE_NIGHT_YES:
+            default:
+                return values[1];
 
         }
     }
@@ -83,11 +83,11 @@ public class DarkUIPreferenceController extends DeveloperOptionsPreferenceContro
         switch (mode) {
             case UiModeManager.MODE_NIGHT_AUTO:
                 return "auto";
-            case UiModeManager.MODE_NIGHT_YES:
-                return "yes";
             case UiModeManager.MODE_NIGHT_NO:
+			     return "no";
+			case UiModeManager.MODE_NIGHT_YES:
             default:
-                return "no";
+                return "yes";
 
         }
     }
@@ -96,11 +96,11 @@ public class DarkUIPreferenceController extends DeveloperOptionsPreferenceContro
         switch (mode) {
             case "auto":
                 return UiModeManager.MODE_NIGHT_AUTO;
-            case "yes":
-                return UiModeManager.MODE_NIGHT_YES;
             case "no":
+				return UiModeManager.MODE_NIGHT_NO;
+			case "yes":
             default:
-                return UiModeManager.MODE_NIGHT_NO;
+                return UiModeManager.MODE_NIGHT_YES;
         }
     }
 }
