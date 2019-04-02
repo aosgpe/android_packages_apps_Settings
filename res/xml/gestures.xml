@@ -52,6 +52,12 @@
         settings:controller="com.android.settings.gestures.SwipeUpPreferenceController" />
 
     <Preference
+        android:key="gesture_aosgp_gestures_summary"
+        android:title="@string/extensions_title"
+	android:summary="@string/build_tweaks_summary_title"
+        android:fragment="org.aosgp.settings.NavbarSettings" />
+
+    <Preference
         android:key="gesture_double_tap_screen_input_summary"
         android:title="@string/ambient_display_title"
         android:fragment="com.android.settings.gestures.DoubleTapScreenSettings"

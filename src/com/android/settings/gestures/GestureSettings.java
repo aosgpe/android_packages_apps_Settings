@@ -17,8 +17,10 @@
 package com.android.settings.gestures;
 
 import android.content.Context;
+import android.content.ContentResolver;
 import android.os.UserHandle;
 import android.provider.SearchIndexableResource;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -46,6 +48,7 @@ public class GestureSettings extends DashboardFragment {
     private static final String KEY_PICK_UP = "gesture_pick_up_input_summary";
     private static final String KEY_PREVENT_RINGING = "gesture_prevent_ringing_summary";
     private static final String KEY_SWIPE_UP = "gesture_swipe_up_input_summary";
+    private static final String KEY_AOSGP = "gesture_aosgp_gestures_summary";
 
     private AmbientDisplayConfiguration mAmbientDisplayConfig;
 
@@ -88,7 +91,7 @@ public class GestureSettings extends DashboardFragment {
                     sir.xmlResId = R.xml.gestures;
                     return Arrays.asList(sir);
                 }
-
+		
                 @Override
                 public List<String> getNonIndexableKeys(Context context) {
                     List<String> keys = super.getNonIndexableKeys(context);
@@ -98,6 +101,7 @@ public class GestureSettings extends DashboardFragment {
                     keys.add(KEY_DOUBLE_TAP_POWER);
                     keys.add(KEY_DOUBLE_TWIST);
                     keys.add(KEY_SWIPE_UP);
+		    keys.add(KEY_AOSGP);
                     keys.add(KEY_DOUBLE_TAP_SCREEN);
                     keys.add(KEY_PICK_UP);
                     keys.add(KEY_PREVENT_RINGING);
